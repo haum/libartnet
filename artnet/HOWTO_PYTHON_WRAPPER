@@ -1,0 +1,27 @@
+from http://www.swig.org/tutorial.html
+
+ SWIG for the truly lazy
+As it turns out, it is not always necessary to write a special interface file. If you have a header file, you can often just include it directly in the SWIG interface. For example:
+
+     %module example
+     %{
+     /* Includes the header in the wrapper code */
+     #include "header.h"
+     %}
+     
+     /* Parse the header file to generate wrappers */
+     %include "header.h"
+     
+
+ 
+  % swig -python artnet.i
+  % gcc -c artnet.c private.h misc.c network.c receive.c transmit.c tod.c artnet_wrap.c  -I /usr/include/python2.7
+  % ld -shared artnet.o misc.o network.o receive.o transmit.o tod.o artnet_wrap.o -o _artnet.so
+
+
+python usage
+
+>>> import artnet
+>>> verbose = 1
+>>> node= artnet.artnet_new("192.168.5.181", verbose)
+
